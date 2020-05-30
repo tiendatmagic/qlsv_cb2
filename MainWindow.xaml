@@ -26,7 +26,6 @@
         <Button x:Name="btnCapnhat" Content="Cập nhât" HorizontalAlignment="Left" Margin="650,299,0,0" VerticalAlignment="Top" Width="100" Height="61" Click="btnCapnhat_Click"/>
         <Label Content="Mã Khoa" HorizontalAlignment="Left" Margin="39,40,0,0" VerticalAlignment="Top" Height="26" Width="57"/>
         <ComboBox x:Name="cbmakh" HorizontalAlignment="Left" Margin="120,44,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cbmakh_SelectionChanged" Height="22"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="705,70,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" Height="20"/>
 
     </Grid>
 </Window>

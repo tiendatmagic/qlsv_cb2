@@ -264,11 +264,7 @@ namespace quanlysinhvien
             
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
 
-            MessageBox.Show(cbmakh.Text);
-        }
 
 
     }
