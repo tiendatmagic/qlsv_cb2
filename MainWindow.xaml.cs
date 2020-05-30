@@ -61,7 +61,7 @@ namespace quanlysinhvien
 
         private void btnDulieu_Click(object sender, RoutedEventArgs e)
         {
-            try
+            /*try
             {
                 DataTable danhsach = new DataTable();
                 using (SqlConnection connection =
@@ -81,7 +81,33 @@ namespace quanlysinhvien
             {
                 MessageBox.Show("Loi khi mo ket noi: " + ex.Message);
             }
+            */
 
+
+            try
+            {
+                DataTable danhsach = new DataTable();
+                using (SqlConnection connection =
+                new SqlConnection(@"Server=DESKTOP-24L225P;Database=QuanLySinhVien; Integrated Security=SSPI"))
+                using (SqlCommand command =
+                    new SqlCommand("select SinhVien.MaSV,SinhVien.TenSV,SinhVien.Email,SinhVien.MaKH from SinhVien, Khoa where SinhVien.MaKH = Khoa.MaKH and Khoa.MaKH =" + "'" + cbmakh.Text + "';", connection))
+
+                {
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    {
+                        adapter.Fill(danhsach);
+                    }
+                }
+                //MessageBox.Show("Ket noi co so du lieu thanh cong,HIHI.");
+                dulieu.ItemsSource = danhsach.DefaultView;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Loi khi mo ket noi: " + ex.Message);
+            }
+
+            //MessageBox.Show(cbmakh.Text);
         }
 
         private void btnThem_Click(object sender, RoutedEventArgs e)
@@ -223,6 +249,7 @@ namespace quanlysinhvien
                 
                 cbmakh.ItemsSource = danhsach.DefaultView;
                 cbmakh.DisplayMemberPath = "MaKH";
+
                 /*listName = new List<string>() { "A", "B", "C" };
                 cbmakh.ItemsSource = danhsach.DefaultView;*/
             }
@@ -234,29 +261,7 @@ namespace quanlysinhvien
 
         private void cbmakh_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try
-            {
-                DataTable danhsach = new DataTable();
-                using (SqlConnection connection =
-                new SqlConnection(@"Server=DESKTOP-24L225P;Database=QuanLySinhVien; Integrated Security=SSPI"))
-                using (SqlCommand command =
-                    new SqlCommand("select SinhVien.MaSV,SinhVien.TenSV,SinhVien.Email,SinhVien.MaKH from SinhVien, Khoa where SinhVien.MaKH = Khoa.MaKH and Khoa.MaKH =" + "'" + cbmakh.Text + "';", connection))
-
-                {
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-                    {
-                        adapter.Fill(danhsach);
-                    }
-                }
-                MessageBox.Show("Ket noi co so du lieu thanh cong,HIHI.");
-                dulieu.ItemsSource = danhsach.DefaultView;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Loi khi mo ket noi: " + ex.Message);
-            }
-            MessageBox.Show(cbmakh.Text);
-
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
