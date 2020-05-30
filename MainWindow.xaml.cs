@@ -14,7 +14,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
-using System.Configuration;
 
 
 //Ahihi Tiendatmagic
@@ -29,7 +28,6 @@ namespace quanlysinhvien
         public MainWindow()
         {
             InitializeComponent();
-           
         }
 
         private void btnKetnoi_Click(object sender, RoutedEventArgs e)
@@ -124,11 +122,11 @@ namespace quanlysinhvien
             {
                 MessageBox.Show("Loi khi mo ket noi: " + ex.Message);
             }
-        
 
-    }
 
-    private void btnXoa_Click(object sender, RoutedEventArgs e)
+        }
+
+        private void btnXoa_Click(object sender, RoutedEventArgs e)
         {
             SinhVien sv = new SinhVien();
             sv.MaSV = txtMaSV.Text;
@@ -207,24 +205,7 @@ namespace quanlysinhvien
             }
         }
 
-        private void cbmakh_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //MessageBox.Show(cbmakh.SelectedValue.ToString());
-            hienthi(cbmakh.SelectedValue.ToString());
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            hienthicbx1(); 
-        }
-
-        public void hienthi (string S)
         {
             try
             {
@@ -232,15 +213,18 @@ namespace quanlysinhvien
                 using (SqlConnection connection =
                 new SqlConnection(@"Server=DESKTOP-24L225P;Database=QuanLySinhVien; Integrated Security=SSPI"))
                 using (SqlCommand command =
-                    new SqlCommand("select SinhVien.MaSV,SinhVien.TenSV,SinhVien.Email,SinhVien.MaKH from SinhVien, Khoa where SinhVien.MaKH = Khoa.MaKH and Khoa.MaKH =" + "'" + S + "';", connection))
+                    new SqlCommand("SELECT MaKH FROM Khoa; ", connection))
                 {
                     using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                     {
                         adapter.Fill(danhsach);
                     }
                 }
-               // MessageBox.Show("Ket noi co so du lieu thanh cong,HIHI.");
-                dulieu.ItemsSource = danhsach.DefaultView;
+                
+                cbmakh.ItemsSource = danhsach.DefaultView;
+                cbmakh.DisplayMemberPath = "MaKH";
+                /*listName = new List<string>() { "A", "B", "C" };
+                cbmakh.ItemsSource = danhsach.DefaultView;*/
             }
             catch (Exception ex)
             {
@@ -248,72 +232,41 @@ namespace quanlysinhvien
             }
         }
 
-        public void hienthicbx1()
+        private void cbmakh_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
-
             {
-
-               
-                
-                string connectionString =
-
-                       ConfigurationManager.ConnectionStrings["QLSV"].ConnectionString;
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
-
-                using (SqlCommand command = new SqlCommand("SELECT MaKH, TenKhoa FROM Khoa;",
-
-                                connection))
+                DataTable danhsach = new DataTable();
+                using (SqlConnection connection =
+                new SqlConnection(@"Server=DESKTOP-24L225P;Database=QuanLySinhVien; Integrated Security=SSPI"))
+                using (SqlCommand command =
+                    new SqlCommand("select SinhVien.MaSV,SinhVien.TenSV,SinhVien.Email,SinhVien.MaKH from SinhVien, Khoa where SinhVien.MaKH = Khoa.MaKH and Khoa.MaKH =" + "'" + cbmakh.Text + "';", connection))
 
                 {
-
-                    connection.Open();
-
-                    using (SqlDataReader reader = command.ExecuteReader())
-
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                     {
-
-                        //xử lý tập dữ liệu từ bảng Khoa
-
-                        while (reader.Read())
-
-                        {
-
-                           
-
-                            
-
-
-
-                            cbmakh.Items.Add(reader.GetString(0));
-
-                        }
-
-                        //di chuyển đến tập dữ liệu từ bảng SinhVien
-
-
-
-                        //MessageBox.Show("Du lieu tu bang Khoa:");
-
-
+                        adapter.Fill(danhsach);
                     }
                 }
+                MessageBox.Show("Ket noi co so du lieu thanh cong,HIHI.");
+                dulieu.ItemsSource = danhsach.DefaultView;
             }
-
-
             catch (Exception ex)
-
             {
-
-                MessageBox.Show("Loi khi mo  ket noi:" + ex.Message);
-
+                MessageBox.Show("Loi khi mo ket noi: " + ex.Message);
             }
+            MessageBox.Show(cbmakh.Text);
+
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            MessageBox.Show(cbmakh.Text);
+        }
+
+
     }
-
-
-   
 }
 //Ahihi Tiendatmagic
 //Copy and paste by Tiendatmagic ahihi

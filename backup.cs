@@ -234,7 +234,8 @@ namespace quanlysinhvien
                 new SqlConnection(@"Server=DESKTOP-24L225P;Database=QuanLySinhVien; Integrated Security=SSPI"))
                 using (SqlCommand command =
                     new SqlCommand("select SinhVien.MaSV,SinhVien.TenSV,SinhVien.Email,SinhVien.MaKH from SinhVien, Khoa where SinhVien.MaKH = Khoa.MaKH and Khoa.MaKH =" + "'" + S + "';", connection))
-                {
+                
+                    {
                     using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                     {
                         adapter.Fill(danhsach);
